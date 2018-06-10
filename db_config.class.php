@@ -21,6 +21,8 @@
 
 		function open() {
 			$this->pdo = new PDO($this->dns, $this->id, $this->pw);
+			$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 			// echo 'PDO 클래스를 통해 접속이 성공하였습니다.';
 		}
 
@@ -29,25 +31,42 @@
 		}
 
 		function query($sql) {
-			$this->open();
+		
+			try {
+				$this->open();
 
-			$stmh = $this->pdo->prepare($sql);
-			$stmh->execute();
+				$stmh = $this->pdo->prepare($sql);
+				$stmh->execute();
 
-			$this->close();
+				$this->close();
+				return true; // 성공시 리턴 
+
+			} catch( PDOException $e ) {
+			    echo '에러 '.$e->getMessage();
+			    return false; // 실패시 리턴 
+			}
 		}
 
 		function fetch($sql) {
-			$this->open();
 
-			$stmh = $this->pdo->prepare($sql);
-			$stmh->execute();
-			$result = [];
-			while( $row = $stmh->fetch(PDO::FETCH_ASSOC) ) {
-				$result[] = $row;
-			};
+			try {
+				$this->open();
 
-			$this->close();
+				$stmh = $this->pdo->prepare($sql);
+				$stmh->execute();
+				$result = [];
+				while( $row = $stmh->fetch(PDO::FETCH_ASSOC) ) {
+					$result[] = $row;
+				};
+
+				$this->close();
+				return true; // 성공시 리턴 
+
+			} catch( PDOException $e ) {
+
+				echo '에러 '.$e->getMessage();
+				return false; // 실패시 리턴 
+			}
 
 			return $result;
 		}
