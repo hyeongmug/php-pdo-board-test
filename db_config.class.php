@@ -42,7 +42,7 @@
 				return true; // 성공시 리턴 
 
 			} catch( PDOException $e ) {
-			    echo '에러 '.$e->getMessage();
+			    // echo '에러 '.$e->getMessage();
 			    return false; // 실패시 리턴 
 			}
 		}

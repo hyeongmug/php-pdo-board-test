@@ -18,7 +18,7 @@
 
 		$result = $db->query($sql);
 
-		if ( $result2 == true ) {
+		if ( $result) {
 
 			$sql2 = 'INSERT INTO board (id, 
 						table_name, 
@@ -34,10 +34,10 @@
 		}
 	}
 
-	if ( $result2 && $result2 ) {
-		alert($table_name.' 테이블을 생성하였습니다.');
+	if ( $result && $result2 ) {
+		alert('테이블을 생성 했습니다.');
 	} else {
-		alert($table_name.' 테이블 생성을 실패 하였습니다.');
+		alert('테이블을 생성하지 못했습니다.');
 	}
 
 ?>
